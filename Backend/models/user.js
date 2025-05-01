@@ -24,6 +24,15 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  googleId: {
+    type: String,
+    unique: true,
+    sparse: true
+  },
+  isVerified: {
+    type: Boolean,
+    default: false
+  }
 });
 
 userSchema.methods.generateAuthToken = function () {
