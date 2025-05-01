@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
 
 const Signup = () => {
+	const [step, setStep] = useState(1);
 	const [data, setData] = useState({
 		name: "",
 		email: "",
@@ -16,6 +17,16 @@ const Signup = () => {
 
 	const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });
+	};
+
+	const handleNext = (e) => {
+		e.preventDefault();
+		// Basic validation for step 1
+		if (data.name && data.email && data.password) {
+			setStep(2);
+		} else {
+			setError("Please fill in all fields.");
+		}
 	};
 
 	const handleSubmit = async (e) => {
@@ -48,57 +59,70 @@ const Signup = () => {
 					</Link>
 				</div>
 				<div className={styles.right}>
-					<form className={styles.form_container} onSubmit={handleSubmit}>
+					<form className={styles.form_container} onSubmit={step === 1 ? handleNext : handleSubmit}>
 						<h1>Create Account</h1>
-						<input
-							type="text"
-							placeholder="Full Name"
-							name="name"
-							onChange={handleChange}
-							value={data.name}
-							required
-							className={styles.input}
-						/>
-						<input
-							type="email"
-							placeholder="Email"
-							name="email"
-							onChange={handleChange}
-							value={data.email}
-							required
-							className={styles.input}
-						/>
-						<input
-							type="password"
-							placeholder="Password"
-							name="password"
-							onChange={handleChange}
-							value={data.password}
-							required
-							className={styles.input}
-						/>
-						<input
-							type="text"
-							placeholder="Company Name"
-							name="companyName"
-							onChange={handleChange}
-							value={data.companyName}
-							required
-							className={styles.input}
-						/>
-						<input
-							type="text"
-							placeholder="Phone Number"
-							name="phone"
-							onChange={handleChange}
-							value={data.phone}
-							required
-							className={styles.input}
-						/>
-						{error && <div className={styles.error_msg}>{error}</div>}
-						<button type="submit" className={styles.green_btn}>
-							Sign Up
-						</button>
+
+						{step === 1 && (
+							<>
+								<input
+									type="text"
+									placeholder="Full Name"
+									name="name"
+									onChange={handleChange}
+									value={data.name}
+									required
+									className={styles.input}
+								/>
+								<input
+									type="email"
+									placeholder="Email"
+									name="email"
+									onChange={handleChange}
+									value={data.email}
+									required
+									className={styles.input}
+								/>
+								<input
+									type="password"
+									placeholder="Password"
+									name="password"
+									onChange={handleChange}
+									value={data.password}
+									required
+									className={styles.input}
+								/>
+								<button type="submit" className={styles.green_btn}>
+									Next
+								</button>
+							</>
+						)}
+
+						{step === 2 && (
+							<>
+								<input
+									type="text"
+									placeholder="Company Name"
+									name="companyName"
+									onChange={handleChange}
+									value={data.companyName}
+									required
+									className={styles.input}
+								/>
+								<input
+									type="text"
+									placeholder="Phone Number"
+									name="phone"
+									onChange={handleChange}
+									value={data.phone}
+									required
+									className={styles.input}
+								/>
+								{error && <div className={styles.error_msg}>{error}</div>}
+								<button type="submit" className={styles.green_btn}>
+									Sign Up
+								</button>
+							</>
+						)}
 					</form>
 				</div>
 			</div>

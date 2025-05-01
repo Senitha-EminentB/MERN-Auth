@@ -26,22 +26,22 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.method.generateAuthToken = function () {
-  const token = jwt.sign({ _id: this._id }, process.env.JWT_PRIVATE_KEY, {
+userSchema.methods.generateAuthToken = function () {
+  const token = jwt.sign({ _id: this._id }, process.env.JWTPRIVATEKEY, {
     expiresIn: "7d",
   });
   return token;
 };
 
-module.exports = mongoose.model("User", userSchema);
+const User = mongoose.model("user", userSchema);
 
 const validate = (data) => {
-  const schema = Joi.object({
-    name: Joi.string().required().label("Name"),
-    email: Joi.string().email().required().label("Email"),
+  const schema = joi.object({
+    name: joi.string().required().label("Name"),
+    email: joi.string().email().required().label("Email"),
     password: passwordComplexity().required().label("Password"),
-    companyName: Joi.string().required().label("Company Name"),
-    phone: Joi.string().required().label("Phone"),
+    companyName: joi.string().required().label("Company Name"),
+    phone: joi.string().required().label("Phone"),
   });
   return schema.validate(data);
 };
