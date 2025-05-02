@@ -3,6 +3,8 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import SignupForm from "./components/Signup/signup";
 import LoginForm from "./components/Login/login";
 import Main from "./components/Main/main";
+import EmailVerify from "./components/EmailVerify";
+
 
 
 function App() {
@@ -14,6 +16,8 @@ function App() {
         <Route path="/login" exact element={<LoginForm />} />
         <Route path="/signup" exact element={<SignupForm />} />
         <Route path="/" exact element={<Navigate replace to="/login"/>}/>
+        <Route path="/users/:id/verify/:token" element={<EmailVerify />} />
+     
       </Routes>
     </div>
   );

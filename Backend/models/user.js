@@ -32,6 +32,10 @@ const userSchema = new mongoose.Schema({
   isVerified: {
     type: Boolean,
     default: false
+  },
+  verified: {
+    type: Boolean,
+    default: false
   }
 });
 
@@ -51,6 +55,7 @@ const validate = (data) => {
     password: passwordComplexity().required().label("Password"),
     companyName: joi.string().required().label("Company Name"),
     phone: joi.string().required().label("Phone"),
+
   });
   return schema.validate(data);
 };

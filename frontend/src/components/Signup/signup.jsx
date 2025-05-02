@@ -1,7 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styles from "./styles.module.css";
+
 
 const Signup = () => {
   const [step, setStep] = useState(1);
@@ -13,7 +14,7 @@ const Signup = () => {
     phone: "",
   });
   const [error, setError] = useState("");
-  const navigate = useNavigate();
+  const [msg, setMsg] = useState("");
 
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
@@ -34,8 +35,7 @@ const Signup = () => {
     try {
       const url = "http://localhost:5000/api/users";
       const { data: res } = await axios.post(url, data);
-      navigate("/login");
-      console.log(res.message);
+      setMsg(res.message);
     } catch (error) {
       if (
         error.response &&
@@ -48,9 +48,8 @@ const Signup = () => {
   };
 
   const handleGoogleLogin = () => {
-	window.open("http://localhost:5000/api/auth/google", "_self");
+    window.open("http://localhost:5000/api/auth/google", "_self");
   };
-  
 
   return (
     <div className={styles.signup_container}>
@@ -62,6 +61,13 @@ const Signup = () => {
               Sign in
             </button>
           </Link>
+          <button
+            type="button"
+            onClick={handleGoogleLogin}
+            className={styles.google_btn}
+          >
+            <span>Continue with Google</span>
+          </button>
         </div>
         <div className={styles.right}>
           <form
@@ -126,6 +132,7 @@ const Signup = () => {
                   className={styles.input}
                 />
                 {error && <div className={styles.error_msg}>{error}</div>}
+                {error && <div className={styles.success_msg}>{msg}</div>}
                 <button type="submit" className={styles.green_btn}>
                   Sign Up
                 </button>
@@ -135,7 +142,6 @@ const Signup = () => {
                   onClick={handleGoogleLogin}
                   className={styles.google_btn}
                 >
-                  <img src="/google-icon.png" alt="google icon" />
                   <span>Continue with Google</span>
                 </button>
               </>
